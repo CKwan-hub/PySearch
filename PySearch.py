@@ -14,8 +14,8 @@ from selenium.common.exceptions import NoSuchElementException
 # settingsFile = sys.argv[2]
 with open("seed-file.json", "r") as f:
     site_data = json.load(f)
-print("site_data", site_data)
-print("f", f)
+# print("site_data", site_data)
+# print("f", f)
 
 # Establish web driver
 driver = webdriver.Chrome()
@@ -32,7 +32,7 @@ except AssertionError:
 
 def siteLoop():
     for calList in site_data["caliber"]:
-        print(calList.get('url'))
+        # print(calList.get('url'))
         urlKeyword = calList.get('url')
         nameKeyword = calList.get('name')
         # print('nameKeyword', nameKeyword)
@@ -71,46 +71,51 @@ def webFunc(urlHalf, itemName):  # Handle site and validation for correct page
 
     # Sort by "in stock"
     driver.find_element_by_id(site_data["targetID"]).click()
-
+    time.sleep(3)
     # Handle displayed stock
     stockRead(itemName)
 
 
 def stockRead(itemName):  # Handle results - Log "out of stock" dates
-    # timeStamp = datetime.now()
-    dfa = driver.find_element_by_class_name("product-list")
-    try:
-        driver.find_element_by_xpath(
-            '//ul[@class="product-list"]/li')
-        print("Found stock")
+    timeStamp = datetime.now()
+
+    print('Reading product information.......')
+    print('On item: % s' %
+          (itemName))
+
+    # See if any products are displayed
+    try:  # Search for list items on the product-list element
+        items = driver.find_element_by_xpath(
+            '//ul[@class="product-list"]/li').is_displayed()
+        print('% s is IN stock! \n' %
+              (itemName))
+
+        # Scrape information of IN STOCK items (func?)
+        stockScrape(itemName, items)
+
+    # If no items are displayed, add the timestamp and item to the backlog.
     except NoSuchElementException:
-        print('No stock!')
-        # listBody = site_data["productList"]
-        # listBodyXPath = driver.find_elements_by_xpath(listBody)
-        # print("listBody", listBodyXPath)
-        # targetPath = listBodyXPath.find_elements_by_xpath("//*[li()]")
-        # print('targetPath', targetPath)
-        # print('Reading product information.......')
-        # print('On item: % s \n' %
-        #       (itemName))
-        # try resultItems = driver.find_element_by_id():
-        #     print('In stock!!')
-        # else:
-        #     print('No Items Available')
-        # output_file.write('Item % s is out of stock as of % s \n' %
-        #                   (itemName, timeStamp))
+        print('% s is OUT of stock! \n' %
+              (itemName))
+        output_file.write('Item % s is out of stock as of % s \n' %
+                          (itemName, timeStamp))
+
+
+def stockScrape(itemName, items):
+    print("Gathering item info!")
+    # Send email function
+
+
+def stockEmail(itemName, totalPrice, indPrice):
+    print("Sending email with in-stock product information....")
+    # Email functionality
+    print("Email sent successfully")
 
 
 siteLoop()
+print("Done looking for ammo!!")
+output_file.write('Done searching on % s \n' % (datetime.now()))
 
-# print("Running Main Function...")
-# webFunc()
-# mainFunc()
+# Sleep timer for 4 hours
 
-# with open("test-data2.json", "r") as f:
-#     settings_dict = json.load(f)
-# print(settings_dict)
-# webFunc()
-# contentFilter()
-# mainFunc()
-# print("Second Test Completed!")
+# Repeat functions
