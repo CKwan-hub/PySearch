@@ -8,6 +8,7 @@ from datetime import datetime
 import sys
 import json
 from selenium.common.exceptions import NoSuchElementException
+import smtplib
 
 # Read from json file
 # open json via sys arg?
@@ -104,16 +105,47 @@ def stockRead(itemName):  # Handle results - Log "out of stock" dates
 def stockScrape(itemName, items):
     print("Gathering item info!")
     # Send email function
+    stockEmail()
+
+# stockEmail params? itemName, totalPrice, indPrice
 
 
-def stockEmail(itemName, totalPrice, indPrice):
+def stockEmail():  # Email functionality
     print("Sending email with in-stock product information....")
-    # Email functionality
+
+    # Get login information
+    emailName = site_data["emailCreds"][0]["username"]
+    emailPass = site_data["emailCreds"][0]["password"]
+    print('emailName', emailName)
+    print('emailPass', emailPass)
+
+    # Email recipient
+    toEmail = site_data["emailRec"]
+
+    # Create session
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(emailName, emailPass)
+
+    # Build email
+    emailBody = "This is a test"
+    emailSubject = ("Stock Results on % s" % datetime.now())
+
+    headers = "\r\n".join(
+        ["from: " + emailName, "subject: " + emailSubject, "to: " + toEmail, "mine-version: 1.0", "content-type: text/html"])
+
+    content = headers + "\r\n\r\n" + emailBody
+
+    # Sent email
+    s.sendmail(emailName, toEmail, content)
+    s.quit()
+
     print("Email sent successfully")
 
 
 siteLoop()
 print("Done looking for ammo!!")
+
 output_file.write('Done searching on % s \n' % (datetime.now()))
 
 # Sleep timer for 4 hours
