@@ -1,5 +1,0 @@
-
-Item .223 REM is out of stock as of 2020-08-16 20:58:33.640478 
-Item 5.56x45MM is out of stock as of 2020-08-16 20:59:06.333640 
-Item 9MM LUGER is out of stock as of 2020-08-16 20:59:38.667202 
-Done searching on 2020-08-16 20:59:38.685293 
