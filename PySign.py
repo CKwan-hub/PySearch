@@ -10,6 +10,7 @@ import sys
 import json
 from selenium.common.exceptions import NoSuchElementException
 import smtplib
+
 # import WebDriverWait
 
 # Read from json file
@@ -50,29 +51,29 @@ except:
     print("No signup modal...")
 
 
-# # Sort by "in stock"
-# print("Sorting by 'in stock'...")
-# driver.find_element_by_id(site_data["targetID"]).click()
-# time.sleep(3)
-# # Handle displayed stock
-# try:  # Search for list items on the product-list element
-#     items = driver.find_element_by_xpath(
-#         '//ul[@class="product-list"]/li').is_displayed()
-#     print('Shit is IN stock!')
-#     output_file.write(
-#         "Shit is IN STOCK DUDE, you probably missed it though... \n")
+# Sort by "in stock"
+print("Sorting by 'in stock'...")
+driver.find_element_by_id(site_data["targetID"]).click()
+time.sleep(3)
+# Handle displayed stock
+try:  # Search for list items on the product-list element
+    items = driver.find_element_by_xpath(
+        '//ul[@class="product-list"]/li').is_displayed()
+    print('Shit is IN stock!')
+    output_file.write(
+        "Shit is IN STOCK DUDE, you probably missed it though... \n")
 
-# # If no items are displayed, add the timestamp and item to the backlog.
-# except NoSuchElementException:
-#     print("Everything is OUT of stock! \n")
-#     output_file.write('Everything is out of stock as of % s \n' %
-#                       (timeStamp))
+# If no items are displayed, add the timestamp and item to the backlog.
+except NoSuchElementException:
+    print("Everything is OUT of stock! \n")
+    output_file.write('Everything is out of stock as of % s \n' %
+                      (timeStamp))
 
-# # Go back to "out of stock"
-# print("Showing 'out of stock'...")
-# driver.find_element_by_id(site_data["targetID"]).click()
-# time.sleep(3)
-# print("Looking at the goodies you didn't stock up on, idiot.")
+# Go back to "out of stock"
+print("Showing 'out of stock'...")
+driver.find_element_by_id(site_data["targetID"]).click()
+time.sleep(3)
+print("Looking at the goodies you didn't stock up on, idiot.")
 
 # Start handling the list items
 items = driver.find_elements_by_xpath(
