@@ -85,14 +85,31 @@ def webFunc(urlSub, itemName):
 
 def scrapeFunc():
     returnList = []
+    # stockedItems = driver.find_elements_by_xpath(
+    #     '//ul[@class="product-list"]/li/a/h2')
+    # stockedItemsTile = driver.find_elements_by_xpath(
+    #     '//ul[@class="product-list"]/u')
+    # stockedItemList = driver.find_element_by_class_name("product-list")
+    stockedItemsTile = driver.find_elements_by_xpath('//*[@id="Results"]/ul/li')
+    print("stockedItems length: % s" % len(stockedItemsTile))
 
-    stockedItems = driver.find_element_by_xpath(
-        '//ul[@class="product-list"]/li/h2')
-    print("stockedItems: % s " % stockedItems)
+    # print("stockedItems: % s " % stockedItems)
+    # print("stockedItemsTile: % s " % stockedItemsTile)
+    
     # Scrape info of stocked
-    resultTitle = stockedItems.get_attribute("value")
-    returnList.append(resultTitle)
-    print("ResultTitle: % s" % resultTitle)
+    for elem in stockedItemsTile:
+        print("elem: % s" % elem)
+        text =  elem.find_element_by_xpath('.//a/h2').text
+        price = elem.find_element_by_xpath('.//a/div[@class="product-listing-price"]').text
+        pricePer = elem.find_element_by_xpath('.//a/div[@class="product-listing-price"]/span').text
+        print("Text: % s" % text)
+        print("price: % s" % price)
+        print("per: % s" % pricePer)
+        returnList.append({'\n Name': text, "\n Price per round": pricePer, "\n Price": price})
+        # print
+    # resultTitle = stockedItems.get_attribute("innerHTML")
+    # returnList.append(elem)
+    # print("text % s" % text)
     print("returnList: % s" % returnList)
 
      # TODO: Add items to email
