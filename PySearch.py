@@ -32,7 +32,7 @@ except AssertionError:
 
 
 def siteLoop():
-    for calList in site_data["caliber"]:
+    for calList in site_data["cal"]:
         # print(calList.get('url'))
         urlKeyword = calList.get('url')
         nameKeyword = calList.get('name')
