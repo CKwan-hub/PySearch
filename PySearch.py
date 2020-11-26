@@ -144,7 +144,7 @@ def stockEmail():  # Email functionality
 
 
 siteLoop()
-print("Done looking for ammo!!")
+print("Done looking for items!!")
 
 output_file.write('Done searching on % s \n' % (datetime.now()))
 
